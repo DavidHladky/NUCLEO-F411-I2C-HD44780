@@ -1,5 +1,11 @@
-#include "i2c_hal.h"
+/* Driver for I2C peripheral
+ * David Hladky
+ * 2016
+ * Version 1.0 Update 30.6.2016
+ */
 
+/*-----------Include files-----------*/
+#include "i2c_hal.h"
 
 void i2c_hal_intialization()
 {
@@ -17,7 +23,7 @@ void i2c_hal_intialization()
 
     /*------------------- Setup I2C1 -------------------*/
 
-    __I2C1_CLK_ENABLE();
+    __I2C1_CLK_ENABLE(); // Enable clock source for I2C peripherals
 
     I2C1_struct.Instance = I2C1;
     I2C1_struct.Init.ClockSpeed = 400000;
