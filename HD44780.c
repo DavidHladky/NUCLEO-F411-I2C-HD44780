@@ -1,7 +1,7 @@
 /* Driver for HD44780 using I2C 8-bit parallel expander PCF8574A
  * David Hladky
  * 2016
- * Version 1.0 Update 30.6.2016
+ * Version 1.1 Update 8-7-2016
  */
 
 /* Connections HD44780 with I2C expander PCF8574A.
@@ -30,11 +30,13 @@ void display_HD44780_init()
     HAL_I2C_Master_Transmit(&I2C1_struct,I2C_dev_add,first_init_data,2,1000); // D4 - 1, D5 - 1, D6 - 0, D7 - 0; Q1 - on
     HAL_I2C_Master_Transmit(&I2C1_struct,I2C_dev_add,set_4_bit,2,1000); //Setup display to the 4 bit mode
 
-    display_HD44780_cmd(DISPLAY_SET); // Setup display to the 4 bit mode with two rows.
-    display_HD44780_cmd(ENTER_MODE); // Shift cursor and text to the right - increment mode.
+    display_HD44780_cmd(DISPLAY_SET); // Setting the display to the 4 bit mode with two rows.
+    display_HD44780_cmd(ENTER_MODE); // Shift the cursor and text to the right - increment mode.
     display_HD44780_cmd(DISPLAY_ON); // Display ON.
 
     HAL_Delay(5); //Delay 5ms
+
+    display_HD44780_cmd(DISPLAY_CLEAR); // Clear display
 
 }
 
@@ -49,13 +51,13 @@ void display_HD44780_cmd(uint8_t cmd)
 
     if ((cmd == 1) || (cmd == 2))
     {
-        HAL_I2C_Master_Transmit(&I2C1_struct,I2C_dev_add,data_to_disp,4,1000); //Send Command to the display.
+        HAL_I2C_Master_Transmit(&I2C1_struct,I2C_dev_add,data_to_disp,4,1000); //Send the Command to the display.
         HAL_Delay(2); // Delay2ms.
     }
 
     else
     {
-        HAL_I2C_Master_Transmit(&I2C1_struct,I2C_dev_add,data_to_disp,4,1000); //Send Command to the display.
+        HAL_I2C_Master_Transmit(&I2C1_struct,I2C_dev_add,data_to_disp,4,1000); //Send the Command to the display.
     }
 
 }
@@ -151,13 +153,30 @@ int8_t display_HD44780_write_string(char *str)
 
     while(*str != '\0')
     {
-        if(counter == 16) display_HD44780_cmd(0xC0); // Continued on a new row.
+        if(counter == 16) display_HD44780_cmd(0xC0); // Continue on a new row.
         else if (counter > 31) return -1; // Max 32 characters will be written.
         counter++;
         display_HD44780_data(*str++); // Write data to the SDRAM address.
     }
 
     return 0;
+}
+
+int8_t display_HD44780_write_custom_char(uint8_t *custom_char, uint8_t address_of_char)
+{
+	uint8_t counter = 0;
+
+	if (address_of_char > 0x3F) return -1; // Last address in CGRAM is 0x3F
+
+	address_of_char |= 0x40;
+	display_HD44780_cmd(address_of_char); // Set the address in DDRAM
+
+	for(counter = 0; counter < 8; counter ++) // Maximum rows per characters is 8
+	{
+		display_HD44780_data(*custom_char++); // Load custom into the display
+	}
+
+	return 0;
 }
 
 

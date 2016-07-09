@@ -1,7 +1,7 @@
 /* Driver for I2C peripheral
  * David Hladky
  * 2016
- * Version 1.0 Update 30.6.2016
+ * Version 1.0 Update 6-30-2016
  */
 
 /*-----------Include files-----------*/
