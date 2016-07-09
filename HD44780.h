@@ -15,7 +15,7 @@
 #define CURSOR_BLINKING_OFF		0x0E
 #define	CURSOR_SHIFT_LEFT   0x10
 #define	CURSOR_SHIFT_RIGHT		0x14
-#define ENTER_MODE      0x06
+#define ENTER_MODE    0x06
 #define TEXT_CURSOR_HOME		0x02
 #define TEXT_SHIFT_LEFT			0x18
 #define TEXT_SHIFT_RIGHT		0x1C
