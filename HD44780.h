@@ -9,7 +9,7 @@
 #define	DISPLAY_SET			0x28
 #define	DISPLAY_ON			0x0C
 #define DISPLAY_OFF			0x08
-#define CURSOR_ON				0x0E
+#define CURSOR_ON			0x0E
 #define CURSOR_OFF			0x0C
 #define CURSOR_BLINKING_ON		0x0F
 #define CURSOR_BLINKING_OFF		0x0E
