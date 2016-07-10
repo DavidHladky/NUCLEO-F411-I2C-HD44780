@@ -4,4 +4,6 @@ In the file HD44780.h are located definitions of functions and commands. The mai
 
 ## Description of functions in the file HD44780.c
 * Basic initialization of HD44780 performs function which is called `display_HD44780_init()`. The function provides basic setup of the display. Before using this function, you must call the function `i2c_hal_intialization()`.
-* Another important functions is `display HD44780 cmd()`, which writes specific command to the HD44780. List of command is placed in the HD44780.h.
+* Another important functions is `display HD44780 cmd()`. This function writes specific command to the HD44780. List of commands is placed in the HD44780.h.
+* Functions called `display_HD44780_write_char()`,`display_HD44780_write_string_position()` and `display_HD44780_write_string()` carry listing of entered characters and strings on display.
+* Last function writes custom character on display. The function is called `display_HD44780_write_custom_char()`. 
